@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import math
 
 import functions
 from ui import Ui_MainWindow
@@ -12,29 +13,40 @@ def write(name):
     else:
         ui.main_label.setText(ui.main_label.text() + name.text())
 
-
+'''
 def analyse():
     one_number = functions.check_for_sqrt(ui.main_label.text())
     if not one_number:
         inter_text = functions.check_for_sqrt(ui.main_label.text())
         inter_text = functions.check_for_square(inter_text)
+        inter_text = functions.check_for_square(inter_text)
         return inter_text
     else:
         return False
 
-
+'''
 def calculate():
-    text = analyse()
-    if text is False:
-        ui.main_label.setText(ui.main_label.text())
-    else:
+    text = functions.analyse(ui.main_label.text())
+    print(f'{text} -- exit from analyse')
+    #print(f'{text is False} -- is false')
+    if text:
+        print('entred in if')
         try:
+            #print(eval(text))
             res = eval(text)
+            #print(f'{res} -- eval res ')
         except ZeroDivisionError:
             ui.main_label.setText('ZeroDivisionError')
+        except BaseException as Exp:
+            print(f'{Exp} is exсepted')
         else:
+            print('try block passed')
             res = functions.check_output(res)
             ui.main_label.setText(str(res))
+
+    else:
+        ui.main_label.setText(ui.main_label.text())
+
 
 
 def erase():
@@ -62,15 +74,16 @@ if __name__ == "__main__":
     ui.btn_7.clicked.connect(lambda: write(ui.btn_7))
     ui.btn_8.clicked.connect(lambda: write(ui.btn_8))
     ui.btn_9.clicked.connect(lambda: write(ui.btn_9))
-    ui.btn_open_parenthesis.clicked.connect(lambda: write(ui.btn_open_parenthesis))
-    ui.btn_close_parenthesis.clicked.connect(lambda: write(ui.btn_close_parenthesis))
     ui.btn_zero.clicked.connect(lambda: write(ui.btn_zero))
     ui.btn_plus.clicked.connect(lambda: write(ui.btn_plus))
     ui.btn_minus.clicked.connect(lambda: write(ui.btn_minus))
+    ui.btn_sqrt.clicked.connect(lambda: write(ui.btn_sqrt))
+    ui.btn_power.clicked.connect(lambda: write(ui.btn_power))
+    ui.btn_dot.clicked.connect(lambda: write(ui.btn_dot))
     ui.btn_multiply.clicked.connect(lambda: write(ui.btn_multiply))
     ui.btn_divise.clicked.connect(lambda: write(ui.btn_divise))
-    ui.btn_power.clicked.connect(lambda: write(ui.btn_power))
-    ui.btn_sqrt.clicked.connect(lambda: write(ui.btn_sqrt))
+    ui.btn_open_parenthesis.clicked.connect(lambda: write(ui.btn_open_parenthesis))
+    ui.btn_close_parenthesis.clicked.connect(lambda: write(ui.btn_close_parenthesis))
     ui.btn_equal.clicked.connect(calculate)
     ui.btn_backspace.clicked.connect(erase)
     ui.btn_clear.clicked.connect(clear)
